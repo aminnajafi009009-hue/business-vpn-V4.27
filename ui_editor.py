@@ -1521,9 +1521,20 @@ def plans_intro_key() -> str:
     return "plans"
 
 
-def get_alert_text(key: str, fallback: str = "") -> str:
-    """متن کوتاه Callback Alert/Toast را از همان مخزن ویرایش متن می‌خواند."""
-    return get_text(key, fallback)
+def get_alert_text(key: str, fallback: str = "", values: dict | None = None) -> str:
+    """متن کوتاه Callback Alert/Toast را از همان مخزن ویرایش متن می‌خواند.
+    values (اختیاری): جایگزینی {متغیر}ها در متن ویرایش‌شده‌ی ادمین؛ fallback همان‌طور که هست (از قبل ساخته‌شده) برمی‌گردد."""
+    txt = get_text(key, fallback)
+    if values and txt != fallback:
+        try:
+            txt = txt.format(**values)
+        except Exception:
+            try:
+                for k, v in values.items():
+                    txt = txt.replace("{" + str(k) + "}", str(v))
+            except Exception:
+                pass
+    return txt
 
 
 def get_entities(key: str):
