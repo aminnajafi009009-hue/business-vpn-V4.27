@@ -2383,7 +2383,7 @@ async def delete_config_apply(callback: types.CallbackQuery):
         if panel:
             ok, msg = await panels.delete_service(panel, cfg["service_id"])
             if not ok:
-                await callback.answer(ui_editor.get_alert_text("msg_panel_delete_error", f"❌ حذف از پنل ناموفق بود: {msg}", {"msg": msg}), show_alert=True)
+                await callback.answer(ui_editor.get_alert_text("msg_panel_delete_error", f"❌ حذف از پنل ناموفق بود: {msg}", {"msg": msg})[:200], show_alert=True)
                 return
     db.set_config_deleted(cfg_id, True)
     await show_menu_with_sticker(callback.bot, callback.message.chat.id, None,
